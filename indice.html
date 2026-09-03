@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Portafolio | Presentación Animada</title>
+  <!-- Google Fonts para tipografías modernas -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome para iconos (opcional, pero da un toque profesional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ===== RESET Y BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0d15;
+      color: #e4e6f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ===== FONDO ANIMADO CON GRADIENTE Y PARTICULAS ===== */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at 30% 30%, #1a1e2f, #0b0d15 80%);
+      overflow: hidden;
+    }
+
+    .background::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: repeating-conic-gradient(from 0deg, transparent 0deg, rgba(100, 120, 255, 0.03) 10deg, transparent 20deg);
+      animation: spin 60s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Partículas con CSS (puntos flotantes) */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      animation: floatParticle 12s infinite alternate ease-in-out;
+    }
+
+    .particle:nth-child(1) {
+      top: 10%;
+      left: 20%;
+      animation-duration: 14s;
+      animation-delay: 0s;
+      width: 8px;
+      height: 8px;
+    }
+    .particle:nth-child(2) {
+      top: 30%;
+      left: 80%;
+      animation-duration: 16s;
+      animation-delay: 1s;
+      width: 10px;
+      height: 10px;
+    }
+    .particle:nth-child(3) {
+      top: 60%;
+      left: 10%;
+      animation-duration: 18s;
+      animation-delay: 2s;
+      width: 5px;
+      height: 5px;
+    }
+    .particle:nth-child(4) {
+      top: 80%;
+      left: 70%;
+      animation-duration: 12s;
+      animation-delay: 0.5s;
+      width: 12px;
+      height: 12px;
+    }
+    .particle:nth-child(5) {
+      top: 50%;
+      left: 50%;
+      animation-duration: 20s;
+      animation-delay: 3s;
+      width: 7px;
+      height: 7px;
+    }
+    .particle:nth-child(6) {
+      top: 20%;
+      left: 50%;
+      animation-duration: 15s;
+      animation-delay: 1.5s;
+      width: 9px;
+      height: 9px;
+    }
+    .particle:nth-child(7) {
+      top: 70%;
+      left: 30%;
+      animation-duration: 13s;
+      animation-delay: 2.5s;
+      width: 6px;
+      height: 6px;
+    }
+    .particle:nth-child(8) {
+      top: 90%;
+      left: 90%;
+      animation-duration: 17s;
+      animation-delay: 0.8s;
+      width: 11px;
+      height: 11px;
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translate(30px, -40px) scale(1.4);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(-20px, 20px) scale(0.8);
+        opacity: 0.2;
+      }
+    }
+
+    /* ===== HEADER / HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    .hero-content {
+      animation: fadeInUp 1.2s ease-out both;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(100, 120, 255, 0.15);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(100, 120, 255, 0.2);
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #a8b5ff;
+      margin-bottom: 1.5rem;
+      animation: pulseGlow 3s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 5px rgba(100, 120, 255, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(100, 120, 255, 0.4);
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 10vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #f0f4ff, #a8b5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .highlight {
+      color: #7a8cff;
+      -webkit-text-fill-color: #7a8cff;
+    }
+
+    /* Efecto máquina de escribir */
+    .typewriter-container {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 400;
+      color: #c8cef0;
+      margin-top: 0.5rem;
+      min-height: 3rem;
+    }
+
+    .typewriter-text {
+      display: inline;
+      border-right: 2px solid #7a8cff;
+      padding-right: 4px;
+      animation: blinkCursor 0.7s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    .hero-sub {
+      max-width: 600px;
+      margin: 1.5rem auto 2.5rem;
+      font-size: 1.1rem;
+      color: #9aa3c9;
+      animation: fadeInUp 1.2s 0.3s both;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 1.2s 0.5s both;
+    }
+
+    .btn {
+      padding: 0.8rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #7a8cff;
+      color: #0b0d15;
+      box-shadow: 0 8px 25px rgba(122, 140, 255, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(122, 140, 255, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #c8cef0;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #7a8cff;
+      box-shadow: 0 8px 25px rgba(122, 140, 255, 0.15);
+    }
+
+    /* ===== SECCIONES ===== */
+    section {
+      padding: 5rem 0;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 0.8s forwards;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      background: linear-gradient(135deg, #f0f4ff, #a8b5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg, #7a8cff, transparent);
+      margin-top: 6px;
+    }
+
+    /* ===== SOBRE MÍ ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      margin-bottom: 1.2rem;
+      color: #bcc3e0;
+      font-size: 1.05rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 1.5rem 0.5rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7a8cff;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #9aa3c9;
+      margin-top: 0.3rem;
+    }
+
+    /* ===== PROYECTOS ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      padding: 2rem 1.5rem;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.4s ease, background 0.3s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(122, 140, 255, 0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .project-icon {
+      font-size: 2.5rem;
+      color: #7a8cff;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .project-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #f0f4ff;
+    }
+
+    .project-card p {
+      color: #bcc3e0;
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .project-tags span {
+      background: rgba(122, 140, 255, 0.12);
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #a8b5ff;
+      letter-spacing: 0.3px;
+    }
+
+    /* ===== CONTACTO ===== */
+    .contact-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .contact-content p {
+      max-width: 500px;
+      color: #bcc3e0;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 1.8rem;
+      color: #c8cef0;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-5px);
+      background: rgba(122, 140, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(122, 140, 255, 0.15);
+      color: #7a8cff;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      color: #6a7299;
+      font-size: 0.9rem;
+    }
+
+    /* ===== ANIMACIONES ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 12vw, 3.8rem);
+      }
+
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+      .stat-item:last-child {
+        grid-column: span 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- FONDO ANIMADO -->
+  <div class="background">
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-content">
+      <span class="hero-badge"><i class="fas fa-code" style="margin-right: 8px;"></i> Disponible para colaborar</span>
+      <h1>
+        Hola, soy <span class="highlight">Alex</span>
+      </h1>
+      <div class="typewriter-container">
+        <span class="typewriter-text" id="typewriter"></span>
+      </div>
+      <p class="hero-sub">
+        Desarrollador creativo apasionado por construir experiencias digitales
+        únicas. Transformo ideas en código con diseño y propósito.
+      </p>
+      <div class="btn-group">
+        <a href="#proyectos" class="btn">Ver proyectos</a>
+        <a href="#contacto" class="btn btn-outline">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SOBRE MÍ ===== -->
+  <section id="sobre-mi">
+    <div class="container">
+      <h2 class="section-title">Sobre mí</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Soy <strong>Alex Rivera</strong>, un desarrollador full-stack con
+            más de 5 años de experiencia creando aplicaciones web y móviles.
+            Me especializo en <strong>React, Node.js</strong> y diseño de
+            interfaces modernas.
+          </p>
+          <p>
+            Creo en el poder del diseño centrado en el usuario y en la
+            importancia de escribir código limpio y mantenible. Siempre estoy
+            explorando nuevas tecnologías para mejorar mi flujo de trabajo.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Años de experiencia</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">Proyectos entregados</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">12</div>
+            <div class="stat-label">Clientes felices</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROYECTOS ===== -->
+  <section id="proyectos">
+    <div class="container">
+      <h2 class="section-title">Proyectos destacados</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Dashboard Analytics</h3>
+          <p>
+            Panel de control interactivo con visualización de datos en tiempo
+            real, construido con React y D3.js.
+          </p>
+          <div class="project-tags">
+            <span>React</span>
+            <span>D3</span>
+            <span>Firebase</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-store"></i></div>
+          <h3>E-commerce Platform</h3>
+          <p>
+            Tienda online completa con carrito, pasarela de pago y panel de
+            administración. Next.js + Stripe.
+          </p>
+          <div class="project-tags">
+            <span>Next.js</span>
+            <span>Stripe</span>
+            <span>Tailwind</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3>App de Fitness</h3>
+          <p>
+            Aplicación móvil para seguimiento de entrenamientos con
+            notificaciones y gráficos de progreso.
+          </p>
+          <div class="project-tags">
+            <span>React Native</span>
+            <span>Node.js</span>
+            <span>MongoDB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto">
+    <div class="container contact-content">
+      <h2 class="section-title">Conectemos</h2>
+      <p>
+        ¿Tienes un proyecto en mente o simplemente quieres saludar? <br />
+        Escríbeme y hablemos.
+      </p>
+      <div class="social-links">
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Alex Rivera. Hecho con <i class="fas fa-heart" style="color: #7a8cff;"></i> y mucho café.</p>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    // ===== EFECTO MÁQUINA DE ESCRIBIR =====
+    const typewriterElement = document.getElementById('typewriter');
+    const words = ['Desarrollador Full-Stack', 'Diseñador de Interfaces', 'Creador de Experiencias', 'Innovador Digital'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let currentText = '';
+
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        currentText = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        currentText = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      typewriterElement.textContent = currentText;
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 2000);
+        return;
+      }
+
+      if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(typeEffect, 400);
+        return;
+      }
+
+      const speed = isDeleting ? 50 : 80;
+      setTimeout(typeEffect, speed);
+    }
+
+    // Iniciar el efecto al cargar
+    typeEffect();
+
+    // ===== ANIMACIÓN AL HACER SCROLL (Intersection Observer) =====
+    const sections = document.querySelectorAll('section');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Forzar visibilidad inicial si ya están visibles
+    // (por si el usuario carga la página con scroll)
+    setTimeout(() => {
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.85) {
+          section.classList.add('visible');
+        }
+      });
+    }, 200);
+
+    // ===== NAVEGACIÓN SUAVE =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
