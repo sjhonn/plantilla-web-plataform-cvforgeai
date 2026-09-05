@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex Rivera · Estrategia y Tecnología</title>
+  <!-- Google Fonts: Inter + serif para contraste formal -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Merriweather:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ===== RESET Y BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fafbfc;
+      color: #1a2634;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ===== FONDO SUTIL ===== */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: #fafbfc;
+      background-image: 
+        linear-gradient(rgba(0, 40, 80, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 40, 80, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: box-shadow 0.3s;
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.3px;
+      color: #0a1a2b;
+    }
+
+    .logo span {
+      color: #1a4b7a;
+      font-weight: 300;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.8rem;
+      list-style: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+    }
+
+    .nav-links a {
+      color: #2c3e50;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: #1a4b7a;
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #1a4b7a;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: #1a4b7a;
+      color: #fff !important;
+      padding: 0.4rem 1.6rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-cta:hover {
+      background: #0e3557;
+      transform: translateY(-1px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      display: flex;
+      align-items: center;
+      min-height: 70vh;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      animation: fadeUp 0.7s ease-out both;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(26, 75, 122, 0.06);
+      color: #1a4b7a;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      margin-bottom: 1.8rem;
+      border: 1px solid rgba(26, 75, 122, 0.08);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 4.8vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.8px;
+      color: #0a1a2b;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 .highlight {
+      color: #1a4b7a;
+      font-weight: 700;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: #3d5166;
+      max-width: 480px;
+      margin-bottom: 2.8rem;
+      line-height: 1.8;
+      font-weight: 400;
+    }
+
+    .hero-sub strong {
+      color: #0a1a2b;
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.7rem 2.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .btn-primary {
+      background: #1a4b7a;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(26, 75, 122, 0.15);
+    }
+
+    .btn-primary:hover {
+      background: #0e3557;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26, 75, 122, 0.2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #1a2634;
+      border: 1px solid #d0d7e0;
+    }
+
+    .btn-outline:hover {
+      border-color: #1a4b7a;
+      color: #1a4b7a;
+      background: rgba(26, 75, 122, 0.03);
+      transform: translateY(-2px);
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeUp 0.7s 0.15s both;
+    }
+
+    .hero-image .illustration {
+      width: 100%;
+      max-width: 380px;
+      background: #eef2f7;
+      border-radius: 24px;
+      padding: 2.5rem;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      color: #1a4b7a;
+      background: linear-gradient(145deg, #f0f4fa, #e6ecf3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.02);
+    }
+
+    /* ===== SECCIONES ===== */
+    section {
+      padding: 4.5rem 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+      font-weight: 700;
+      color: #0a1a2b;
+      letter-spacing: -0.3px;
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: #1a4b7a;
+      margin-top: 0.6rem;
+      border-radius: 4px;
+    }
+
+    .section-sub {
+      color: #3d5166;
+      font-size: 1rem;
+      max-width: 600px;
+      margin-bottom: 2.8rem;
+      font-weight: 400;
+    }
+
+    /* ===== SOBRE MÍ (con línea de tiempo) ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .about-text p {
+      margin-bottom: 1.2rem;
+      color: #2c3e50;
+      font-size: 0.98rem;
+      line-height: 1.8;
+    }
+
+    .about-text strong {
+      color: #0a1a2b;
+      font-weight: 600;
+    }
+
+    .timeline {
+      border-left: 2px solid #d0d7e0;
+      padding-left: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.45rem;
+      top: 0.3rem;
+      width: 12px;
+      height: 12px;
+      background: #1a4b7a;
+      border-radius: 50%;
+      border: 2px solid #fafbfc;
+      box-shadow: 0 0 0 3px rgba(26, 75, 122, 0.08);
+    }
+
+    .timeline-item .year {
+      font-weight: 700;
+      color: #1a4b7a;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+    }
+
+    .timeline-item .title {
+      font-weight: 600;
+      color: #0a1a2b;
+      margin: 0.1rem 0 0.2rem;
+    }
+
+    .timeline-item .desc {
+      color: #3d5166;
+      font-size: 0.9rem;
+    }
+
+    /* ===== LOGROS / RECONOCIMIENTOS ===== */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .achievement-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      border: 1px solid #e9edf2;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+      text-align: center;
+    }
+
+    .achievement-card:hover {
+      transform: translateY(-3px);
+      border-color: #cbd5e1;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.02);
+    }
+
+    .achievement-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1a4b7a;
+      line-height: 1.2;
+    }
+
+    .achievement-label {
+      font-size: 0.85rem;
+      color: #3d5166;
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    /* ===== PUBLICACIONES / ARTÍCULOS ===== */
+    .publications-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .publication-item {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid #e9edf2;
+      transition: all 0.25s ease;
+    }
+
+    .publication-item:hover {
+      transform: translateY(-3px);
+      border-color: #cbd5e1;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.02);
+    }
+
+    .publication-item .pub-meta {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6b7f94;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .publication-item h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0a1a2b;
+      margin-bottom: 0.4rem;
+    }
+
+    .publication-item p {
+      color: #3d5166;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .publication-item .pub-link {
+      display: inline-block;
+      margin-top: 0.8rem;
+      color: #1a4b7a;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .publication-item .pub-link i {
+      transition: transform 0.2s;
+    }
+
+    .publication-item .pub-link:hover {
+      color: #0e3557;
+    }
+
+    .publication-item .pub-link:hover i {
+      transform: translateX(4px);
+    }
+
+    /* ===== TESTIMONIOS ===== */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid #e9edf2;
+      transition: transform 0.2s;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .testimonial-card .quote {
+      font-size: 0.95rem;
+      color: #2c3e50;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      font-family: 'Merriweather', serif;
+      font-weight: 300;
+    }
+
+    .testimonial-card .author {
+      font-weight: 600;
+      color: #0a1a2b;
+    }
+
+    .testimonial-card .role {
+      font-size: 0.8rem;
+      color: #6b7f94;
+    }
+
+    /* ===== CONTACTO ===== */
+    .contact-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      margin-top: 1.5rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #2c3e50;
+      font-size: 0.95rem;
+    }
+
+    .contact-item i {
+      color: #1a4b7a;
+      font-size: 1.1rem;
+      width: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.2rem;
+      margin-left: auto;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #eef2f7;
+      color: #2c3e50;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .social-links a:hover {
+      background: #1a4b7a;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 2rem 0;
+      border-top: 1px solid #e9edf2;
+      margin-top: 1rem;
+      color: #6b7f94;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer span i {
+      color: #1a4b7a;
+      margin: 0 4px;
+    }
+
+    /* ===== ANIMACIONES ===== */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .hero-image .illustration {
+        max-width: 280px;
+        font-size: 4.5rem;
+        padding: 2rem;
+      }
+      .hero {
+        min-height: auto;
+        padding: 3rem 0 2rem;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .nav-cta {
+        display: inline-block;
+      }
+      .contact-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .social-links {
+        margin-left: 0;
+      }
+      footer {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .btn-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .section-title::after {
+        width: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1.2rem;
+      }
+      .timeline {
+        padding-left: 1.2rem;
+      }
+      .timeline-item::before {
+        left: -1.65rem;
+        width: 10px;
+        height: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo sutil -->
+  <div class="bg-grid"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <div class="logo">Alex<span>Rivera</span></div>
+      <ul class="nav-links">
+        <li><a href="#trayectoria">Trayectoria</a></li>
+        <li><a href="#logros">Logros</a></li>
+        <li><a href="#publicaciones">Publicaciones</a></li>
+        <li><a href="#testimonios">Referencias</a></li>
+        <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="hero-badge">Consultoría Estratégica · Tecnología</span>
+        <h1>Alex <span class="highlight">Rivera</span></h1>
+        <p class="hero-sub">
+          Ayudo a organizaciones a <strong>transformar su visión digital</strong> en productos escalables y rentables. 
+          Más de 6 años de experiencia en dirección de tecnología, arquitectura y equipos.
+        </p>
+        <div class="btn-group">
+          <a href="#contacto" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Iniciar conversación</a>
+          <a href="#trayectoria" class="btn btn-outline">Conocer más</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="illustration">
+          <i class="fas fa-briefcase"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRAYECTORIA (Sobre mí + línea de tiempo) ===== -->
+  <section id="trayectoria">
+    <div class="container">
+      <h2 class="section-title">Trayectoria profesional</h2>
+      <p class="section-sub">Un recorrido enfocado en la innovación y la entrega de valor.</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            <strong>Alex Rivera</strong> — Ingeniero de Software y consultor con especialización en arquitectura de sistemas, 
+            transformación digital y liderazgo de equipos técnicos. He trabajado con startups, scale-ups y corporaciones 
+            en sectores como fintech, salud y retail.
+          </p>
+          <p>
+            Mi enfoque combina una visión estratégica del negocio con un profundo conocimiento técnico, permitiendo 
+            alinear los objetivos de producto con las capacidades tecnológicas.
+          </p>
+          <p>
+            Actualmente, ofrezco servicios de consultoría independiente, asesorando a comités de dirección y equipos 
+            de producto en la definición de hojas de ruta, selección de tecnologías y optimización de procesos.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="year">2022 — Actualidad</div>
+            <div class="title">Consultor Senior · Independiente</div>
+            <div class="desc">Asesoramiento estratégico y desarrollo de soluciones para clientes de diversos sectores.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="year">2019 — 2022</div>
+            <div class="title">Lead Developer · Fintech Innovación</div>
+            <div class="desc">Liderazgo técnico de un equipo de 12 personas, arquitectura de microservicios y migración a la nube.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="year">2016 — 2019</div>
+            <div class="title">Full-Stack Developer · HealthTech</div>
+            <div class="desc">Desarrollo de aplicaciones para el sector sanitario, integración con sistemas hospitalarios.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LOGROS / RECONOCIMIENTOS ===== -->
+  <section id="logros">
+    <div class="container">
+      <h2 class="section-title">Logros y reconocimientos</h2>
+      <p class="section-sub">Resultados que respaldan mi trayectoria y compromiso con la excelencia.</p>
+      <div class="achievements-grid">
+        <div class="achievement-card">
+          <div class="achievement-number">6+</div>
+          <div class="achievement-label">Años de experiencia</div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-number">35+</div>
+          <div class="achievement-label">Proyectos entregados</div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-number">20+</div>
+          <div class="achievement-label">Clientes satisfechos</div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-number">3</div>
+          <div class="achievement-label">Publicaciones sectoriales</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PUBLICACIONES / ARTÍCULOS ===== -->
+  <section id="publicaciones">
+    <div class="container">
+      <h2 class="section-title">Publicaciones</h2>
+      <p class="section-sub">Artículos y contribuciones en medios especializados.</p>
+      <div class="publications-grid">
+        <div class="publication-item">
+          <div class="pub-meta">Revista Tecnológica · 2025</div>
+          <h4>Arquitectura moderna: microservicios y eventos</h4>
+          <p>Un análisis de los patrones de diseño y casos de éxito en la migración a arquitecturas basadas en eventos.</p>
+          <a href="#" class="pub-link">Leer más <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="publication-item">
+          <div class="pub-meta">Foro de Innovación · 2024</div>
+          <h4>Liderazgo técnico en entornos ágiles</h4>
+          <p>Cómo equilibrar la dirección técnica con la gestión de equipos multidisciplinarios para maximizar el impacto.</p>
+          <a href="#" class="pub-link">Leer más <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="publication-item">
+          <div class="pub-meta">Revista Fintech · 2023</div>
+          <h4>Transformación digital en el sector financiero</h4>
+          <p>Lecciones aprendidas y mejores prácticas para la adopción de tecnología en entornos regulados.</p>
+          <a href="#" class="pub-link">Leer más <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIOS ===== -->
+  <section id="testimonios">
+    <div class="container">
+      <h2 class="section-title">Referencias</h2>
+      <p class="section-sub">Opiniones de líderes con los que he colaborado.</p>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="quote">“Alex demostró una capacidad excepcional para traducir necesidades de negocio en soluciones técnicas robustas. Su liderazgo fue clave en el éxito del proyecto.”</p>
+          <div class="author">Laura Méndez</div>
+          <div class="role">CEO · Fintech Innova</div>
+        </div>
+        <div class="testimonial-card">
+          <p class="quote">“Su enfoque estratégico y su habilidad para comunicar conceptos complejos a equipos no técnicos fueron fundamentales para alinear a toda la organización.”</p>
+          <div class="author">Carlos Herrera</div>
+          <div class="role">CTO · RetailPlus</div>
+        </div>
+        <div class="testimonial-card">
+          <p class="quote">“Alex es un profesional íntegro y comprometido. Aporta una visión de futuro y una calidad técnica que marcan la diferencia.”</p>
+          <div class="author">María Fernández</div>
+          <div class="role">Product Manager · HealthData</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto">
+    <div class="container contact-content">
+      <h2 class="section-title">Contacto</h2>
+      <p class="section-sub">Si buscas un socio tecnológico con visión estratégica, estaré encantado de conversar.</p>
+      <div class="contact-row">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>alex.rivera@consultoria.com</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone-alt"></i>
+          <span>+34 600 123 456</span>
+        </div>
+        <div class="social-links">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <span>&copy; 2026 Alex Rivera · Consultoría Estratégica</span>
+      <span>Hecho con <i class="fas fa-heart"></i> y precisión</span>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ===== NAVBAR SCROLL =====
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 20);
+      });
+
+      // ===== INTERSECTION OBSERVER =====
+      const sections = document.querySelectorAll('section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.06,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      sections.forEach(section => observer.observe(section));
+
+      // Forzar visibilidad inicial
+      setTimeout(() => {
+        sections.forEach(section => {
+          if (section.getBoundingClientRect().top < window.innerHeight * 0.85) {
+            section.classList.add('visible');
+          }
+        });
+      }, 200);
+
+      // ===== NAVEGACIÓN SUAVE =====
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          e.preventDefault();
+          const target = document.querySelector(targetId);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // ===== REDUCCIÓN DE MOVIMIENTO =====
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('.achievement-card, .publication-item, .testimonial-card, .timeline-item').forEach(el => {
+          el.style.transition = 'none';
+        });
+        document.querySelectorAll('.hero-content, .hero-image').forEach(el => {
+          el.style.animation = 'none';
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
